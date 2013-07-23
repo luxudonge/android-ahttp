@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:text="@string/app_name"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="20dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/get_request_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_get_demo" />
+
+            <Button
+                android:id="@+id/gets_request_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_gets_demo" />
+
+            <Button
+                android:id="@+id/post_request_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_post_demo" />
+
+            <Button
+                android:id="@+id/download_request_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_download_demo" />
+
+            <Button
+                android:id="@+id/upload_request_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_upload_demo" />
+
+            <Button
+                android:id="@+id/rss_request_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_rss_demo" />
+
+            <Button
+                android:id="@+id/exit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_exit" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

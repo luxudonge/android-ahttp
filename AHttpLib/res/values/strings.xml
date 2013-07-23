@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, AlexHttpActivity!</string>
+    <string name="app_name">AHttp DEMO</string>
+    <string name="str_get_demo">get请求DEMO</string>
+    <string name="str_gets_demo">gets请求DEMO</string>
+    <string name="str_post_demo">post请求DEMO</string>
+    <string name="str_download_demo">下载资源文件DEMO</string>
+    <string name="str_upload_demo">上传文件DEMO</string>
+    <string name="str_rss_demo">RSS解析DEMO</string>
+    <string name="str_exit">退出</string>
+    <string name="str_send">发送</string>
+    <string name="hint_url">目标URL</string>
+    <string name="hint_post_data">name=value;name=value格式,以分号分开</string>
+
+</resources>
