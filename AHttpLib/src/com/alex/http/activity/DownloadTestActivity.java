@@ -15,7 +15,12 @@ import com.alex.http.request.AResponseHandler;
 import com.alex.http.request.ReponseUpdateDataListeners;
 import com.alex.http.request.StateListeners;
 
-
+/**
+ * 
+ * 文件下载
+ * @author Alex.Lu
+ *
+ */
 public class DownloadTestActivity extends Activity implements StateListeners, OnClickListener, ReponseUpdateDataListeners {
     /** Called when the activity is first created. */
 	
