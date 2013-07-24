@@ -58,4 +58,8 @@ public class PostFile {
 	public String getContentType(){
 		return mContentType;
 	}
+	
+	public long getFileSize(){
+		return mFile.length();
+	}
 }

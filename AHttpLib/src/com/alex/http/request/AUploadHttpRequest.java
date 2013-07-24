@@ -41,7 +41,6 @@ public class AUploadHttpRequest extends AHttpRequest {
 		mURL = url;
 	}
 	
-	
 	public void setUploadFilePath(PostFile fileName){
 		mArrayList.clear();
 		mArrayList.add(fileName);
@@ -73,10 +72,14 @@ public class AUploadHttpRequest extends AHttpRequest {
         byte[] buffer =new byte[bufferSize];
         int length =-1;
         /* 从文件读取数据至缓冲区 */
+        int currentSize = 0;;
+        int allSize = (int)fileName.getFileSize();
         while((length = fStream.read(buffer)) !=-1)
         {
+        	currentSize += length;
         	/* 将资料写入DataOutputStream中 */
         	outStream.write(buffer, 0, length);
+        	mAResponseHandler.sendUpdateUploadDataMessaget(mRequestId, 1, 0, currentSize, allSize);
         }
         outStream.write(end.getBytes());
         outStream.write((twoHyphens + boundary + twoHyphens + end).getBytes());

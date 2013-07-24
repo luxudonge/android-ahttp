@@ -27,10 +27,13 @@ public class AResponseHandler {
 	protected static final int UPDATE_MESSAGE = 4;
 	/*请求重复请求*/
 	protected static final int REPEAT_MESSAGE = 5;
+	/*请求上传数据*/
+	protected static final int UPLOAD_MESSAGE = 6;
 	
 	private ReponseUpdateDataListeners mReponseUpdateDataListeners;
 	private ReponseDataListeners mReponseDataListeners;
 	private StateListeners mStateListeners;
+	private UploadDataListeners mUploadDataListeners;
 	
 	private Handler mHandler;
 	
@@ -68,6 +71,14 @@ public class AResponseHandler {
 	 */
 	public void setStateListeners(StateListeners stateListeners){
 		mStateListeners = stateListeners;
+	}
+	
+	/**
+	 * 上传文件监听
+	 * @param uploadDataListeners
+	 */
+	public void setUploadDataListeners(UploadDataListeners uploadDataListeners){
+		mUploadDataListeners = uploadDataListeners;
 	}
 	
 	private Message obtainMessage(int responseMessage,int requestId,Object response){
@@ -140,6 +151,19 @@ public class AResponseHandler {
 		sendMessage(obtainMessage(UPDATE_MESSAGE, requestId, response));
 	}
 	
+	/**
+	 * 资源上传请求
+	 * @param requestId
+	 * @param count
+	 * @param index
+	 * @param currentSize
+	 * @param allSize
+	 */
+	public void sendUpdateUploadDataMessaget(int requestId,int count,int index,int currentSize,int allSize){
+		Object[] response = {Integer.valueOf(count),Integer.valueOf(index),Integer.valueOf(currentSize),Integer.valueOf(allSize)};
+		sendMessage(obtainMessage(UPLOAD_MESSAGE, requestId, response));
+	}
+	
 	private void handleMessage(Message msg){
 		int requestId = msg.arg1;
 		switch (msg.what) {
@@ -192,6 +216,17 @@ public class AResponseHandler {
 						(Long)response[0], 
 						(Long)response[1]);
 			break;
+		}
+		case UPLOAD_MESSAGE:{
+			Object[] response = (Object[])msg.obj;
+			if(mUploadDataListeners != null){
+				mUploadDataListeners.updataUploadData(
+						requestId, 
+						(Integer)response[0], 
+						(Integer)response[1], 
+						(Integer)response[2], 
+						(Integer)response[3]);
+			}
 		}
 		default:
 			break;

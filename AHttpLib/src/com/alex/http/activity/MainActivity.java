@@ -16,7 +16,7 @@ import com.alex.http.core.AHttpEngine;
  * 测试主界面
  * 
  * @author Alex.Lu
- *
+ * 
  */
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -60,11 +60,8 @@ public class MainActivity extends Activity implements OnClickListener {
         
         mExitBT = (Button)findViewById(R.id.exit);
         mExitBT.setOnClickListener(this);
-		
+        
 	}
-
-
-
 
 
 	@Override

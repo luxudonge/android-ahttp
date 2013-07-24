@@ -59,6 +59,10 @@ public class AHttpEngine {
 		return mInstance;
 	}
 	
+	/**
+	 * 初始化
+	 * @param httpConfiguration
+	 */
 	public void init(AHttpConfiguration httpConfiguration){
 		BasicHttpParams httpParams = new BasicHttpParams();
 		
@@ -86,27 +90,59 @@ public class AHttpEngine {
 		}
 	}
 
+	/**
+	 * 上传数据
+	 * @param context
+	 * @param request
+	 */
 	public void uploadRequest(Context context,AUploadHttpRequest request){
 		sendRequest(context, request);
 	}
 	
+	/**
+	 * 下载资源
+	 * @param context
+	 * @param request
+	 */
 	public void resourceRequest(Context context,AResourceHttpRequest request){
 		sendRequest(context, request);
 	}
 	
+	/**
+	 * GET请求
+	 * @param context
+	 * @param request
+	 */
 	public void getRequest(Context context,AGetHttpRequest request){
 		sendRequest(context, request);
 	}
 	
+	/**
+	 * GET请求
+	 * @param context
+	 * @param request
+	 * @param httpContext
+	 */
 	public void getRequest(Context context,AGetHttpRequest request, HttpContext httpContext){
 		request.setHttpContext(httpContext);
 		sendRequest(context, request);
 	}
 	
+	/**
+	 * POST请求
+	 * @param context
+	 * @param request
+	 */
 	public void postRequest(Context context,APostHttpRequest request){
 		sendRequest(context, request);
 	}
 	
+	/**
+	 * POST请求
+	 * @param context
+	 * @param request
+	 * @param httpContext
+	 */
 	public void postRequest(Context context,APostHttpRequest request, HttpContext httpContext){
 		request.setHttpContext(httpContext);
 		sendRequest(context, request);
@@ -138,7 +174,6 @@ public class AHttpEngine {
 		}
 		mRequestMap.remove(context);
 	}
-	
 	
 	
 }

@@ -6,6 +6,7 @@ import com.alex.http.request.AStringHandleable;
 import com.alex.http.request.AUploadHttpRequest;
 import com.alex.http.request.ReponseDataListeners;
 import com.alex.http.request.StateListeners;
+import com.alex.http.request.UploadDataListeners;
 import com.other.PostFile;
 
 import android.app.Activity;
@@ -23,7 +24,7 @@ import android.widget.TextView;
  * @author Alex.Lu
  *
  */
-public class UploadTestActivity extends Activity implements OnClickListener, StateListeners, ReponseDataListeners{
+public class UploadTestActivity extends Activity implements OnClickListener, StateListeners, ReponseDataListeners, UploadDataListeners{
     /** Called when the activity is first created. */
 	
 	private TextView text;
@@ -55,6 +56,7 @@ public class UploadTestActivity extends Activity implements OnClickListener, Sta
 			AResponseHandler responseHandler = new AResponseHandler();
 			responseHandler.setReponseDataListeners(this);
 			responseHandler.setStateListeners(this);
+			responseHandler.setUploadDataListeners(this);
 			AUploadHttpRequest request = new AUploadHttpRequest(new AStringHandleable(), responseHandler,url);
 			PostFile file = new PostFile("/sdcard/com.sd.activity/books/P85.png", "headpic");
 			request.setUploadFilePath(file);
@@ -99,6 +101,14 @@ public class UploadTestActivity extends Activity implements OnClickListener, Sta
 	public void onRepeatRequest(int requestId, int count) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void updataUploadData(int reqeust, int count, int index,
+			int currentSize, int allSize) {
+		// TODO Auto-generated method stub
+		Log.e("", "count:"+count +"   index:"+index +"   currentSize:"+currentSize + "  allSize"+allSize);
 	}
 
 
