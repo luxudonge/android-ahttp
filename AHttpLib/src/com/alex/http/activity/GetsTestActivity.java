@@ -5,6 +5,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.alex.http.core.AHttpEngine;
+import com.alex.http.request.AGetHttpRequest;
+import com.alex.http.request.AResponseHandler;
+import com.alex.http.request.AStringHandleable;
+import com.alex.http.request.ReponseDataListeners;
+import com.alex.http.request.StateListeners;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -22,7 +29,8 @@ import android.widget.TextView;
  * @author Alex.Lu
  * 
  */
-public class GetsTestActivity extends Activity implements OnClickListener {
+public class GetsTestActivity extends Activity implements OnClickListener,
+		ReponseDataListeners, StateListeners {
 
 	private String TAG = "GetTestActivity";
 
@@ -50,7 +58,7 @@ public class GetsTestActivity extends Activity implements OnClickListener {
 		mResponseContentTV = (TextView) findViewById(R.id.response_content);
 
 		mUrlET = (EditText) findViewById(R.id.url);
-		mUrlET.setText("http://wap.qidian.cn/wap2/top/index.do?&fromindex=lm4");
+		mUrlET.setText("http://192.1.1.90");
 		mSendBT = (Button) findViewById(R.id.send);
 		mSendBT.setOnClickListener(this);
 
@@ -62,54 +70,57 @@ public class GetsTestActivity extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.send:
 			mTime = System.currentTimeMillis();
-			/*
-			 * String url = mUrlET.getText().toString(); if (url != null) { mN =
-			 * 10; progressDialog.show(); mResponseContentTV.setText("");
-			 * AGetRequest request = new AGetRequest(REQUEST_ID, url, this,
-			 * this, null); AHttpEngine.getInstance().request(request); }
-			 */
-			sendRequest();
-			break;
+			String url = mUrlET.getText().toString();
+			if (url != null) {
+				progressDialog.show();
+				mResponseContentTV.setText("");
+				AStringHandleable handle = new AStringHandleable();
+				AResponseHandler responseHandler = new AResponseHandler();
+				responseHandler.setStateListeners(this);
+				responseHandler.setReponseDataListeners(this);
+				AGetHttpRequest request = new AGetHttpRequest(handle,responseHandler, url);
+				AHttpEngine.getInstance().getRequest(this, request);
+				break;
 
-		default:
-			break;
+			}
 		}
+
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		AHttpEngine.getInstance().cancelRequest(this, true);
 	}
 
+	@Override
+	public void onStartRequest(int requestId) {
+		// TODO Auto-generated method stub
 
-	private void sendRequest() {
-		URL url = null;
-		try {
-			url = new URL(
-					"http://wap.qidian.cn/wap2/top/index.do?&fromindex=lm4");
+	}
 
-			HttpURLConnection conn = null;
-			conn = (HttpURLConnection) url.openConnection();
+	@Override
+	public void onFinishRequest(int requestId) {
+		// TODO Auto-generated method stub
 
-			conn.setConnectTimeout(6 * 1000);
-			conn.setDoOutput(true);// 允许输出
-			conn.setUseCaches(false);// 不使用Cache
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Connection", "Keep-Alive");// 维持长连接
-			conn.setRequestProperty("Charset", "UTF-8");
-			conn.setRequestProperty("Content-Type", "text/xml; charset=UTF-8");
-			DataOutputStream outStream = null;
-			outStream = new DataOutputStream(conn.getOutputStream());
-			outStream.flush();
-			if (conn.getResponseCode() == 200) {
-				Log.e("", "成功");
-				if (mN > 0) {
-					mN--;
-					conn.disconnect();
-					sendRequest();
-				} else {
-					long t = (System.currentTimeMillis() - mTime) / 1000;
-					Log.e("", "t:" + t);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	}
+
+	@Override
+	public void onRepeatRequest(int requestId, int count) {
+		// TODO Auto-generated method stub
+		Log.e("onRepeatRequest", "count:"+count);
+	}
+
+	@Override
+	public void onSuccessResult(int requestId, int statusCode, Object data) {
+		// TODO Auto-generated method stub
+		Log.e("onSuccessResult", "data:"+String.valueOf(data));
+	}
+
+	@Override
+	public void onErrorResult(int requestId, int statusCode, Throwable e) {
+		// TODO Auto-generated method stub
+		Log.e("onSuccessResult", "error:"+e.getMessage());
 	}
 }

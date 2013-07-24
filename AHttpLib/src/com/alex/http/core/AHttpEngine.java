@@ -29,6 +29,7 @@ import com.alex.http.request.AGetHttpRequest;
 import com.alex.http.request.AHttpRequest;
 import com.alex.http.request.APostHttpRequest;
 import com.alex.http.request.AResourceHttpRequest;
+import com.alex.http.request.AUploadHttpRequest;
 
 /**
  * 
@@ -85,6 +86,10 @@ public class AHttpEngine {
 		}
 	}
 
+	public void uploadRequest(Context context,AUploadHttpRequest request){
+		sendRequest(context, request);
+	}
+	
 	public void resourceRequest(Context context,AResourceHttpRequest request){
 		sendRequest(context, request);
 	}

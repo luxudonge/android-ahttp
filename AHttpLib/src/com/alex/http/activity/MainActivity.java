@@ -10,13 +10,14 @@ import android.widget.Button;
 
 import com.alex.http.core.AHttpConfiguration;
 import com.alex.http.core.AHttpEngine;
-import com.alex.http.request.AResourceHttpRequest;
-import com.alex.http.request.AResponseHandler;
-import com.alex.http.request.AStringHandleable;
-import com.alex.http.request.ReponseDataListeners;
-import com.alex.http.request.ReponseUpdateDataListeners;
-import com.alex.http.request.StateListeners;
 
+/**
+ * 
+ * 测试主界面
+ * 
+ * @author Alex.Lu
+ *
+ */
 public class MainActivity extends Activity implements OnClickListener {
 
 	private final static String TAG = "TestMainActivity";
