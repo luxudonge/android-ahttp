@@ -70,8 +70,9 @@ public class DownloadTestActivity extends Activity implements StateListeners, On
 			responseHandler.setStateListeners(this);
 			responseHandler.setReponseUpdateDataListeners(this);
 			AResourceHttpRequest request = new AResourceHttpRequest("jj.jpg", responseHandler, "http://5.gaosu.com/download/pic/000/322/389b3983fd9191c8fc71bece50671612.jpg");
+			
 			request.setResouceDir("/sdcard/");
-			AHttpEngine.getInstance().resourceRequest(this,request);
+			AHttpEngine.getInstance().doRequest(request);
 		      
 			break;
 		default:

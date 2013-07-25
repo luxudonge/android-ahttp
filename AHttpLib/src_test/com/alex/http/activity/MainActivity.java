@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.alex.http.core.AHttpConfiguration;
-import com.alex.http.core.AHttpEngine;
-
 /**
  * 
  * 测试主界面
@@ -34,12 +31,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_testmain);
-		AHttpConfiguration httpConfiguration = new AHttpConfiguration.Builder()
-		.enLog()
-		.build();
-		
-		AHttpEngine.getInstance().init(httpConfiguration);
-		
+	
 		mGetRequestBT = (Button)findViewById(R.id.get_request_btn);
         mGetRequestBT.setOnClickListener(this);
         

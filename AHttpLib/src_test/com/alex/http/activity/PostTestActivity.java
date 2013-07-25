@@ -81,7 +81,7 @@ public class PostTestActivity extends Activity implements OnClickListener, State
 					request.putPostContentParam(values[0], values[1]);
 				}
 				
-				AHttpEngine.getInstance().postRequest(this, request);
+				AHttpEngine.getInstance().doRequest(request);
 			}
 			break;
 

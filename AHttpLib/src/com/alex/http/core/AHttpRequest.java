@@ -1,4 +1,4 @@
-package com.alex.http.request;
+package com.alex.http.core;
 
 import java.io.IOException;
 
@@ -11,8 +11,9 @@ import org.apache.http.client.HttpResponseException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 
-import com.alex.http.core.AHttpLog;
-import com.alex.http.core.AHttpRequestConfiguration;
+import com.alex.http.request.AHandleable;
+import com.alex.http.request.AHttpException;
+import com.alex.http.request.AResponseHandler;
 
 /**
  * 
@@ -37,12 +38,16 @@ public abstract class AHttpRequest implements Runnable{
 	
 	protected HttpContext mHttpContext;
 	
+	private AHttpEngine mHttpEngine;
+	
 	//请求的id
     protected int mRequestId;
     
     protected String mURL;
     
     private int mCount = 3;
+    
+    
     
 	public AHttpRequest(
 			AHandleable handle,
@@ -66,8 +71,12 @@ public abstract class AHttpRequest implements Runnable{
 		mParse = handle;
 	}
 	
-	public void setDefaultHttpClient(DefaultHttpClient client){
+	void setDefaultHttpClient(DefaultHttpClient client){
 		mClient = client;
+	}
+	
+	void setHttpEngine(AHttpEngine engine){
+		mHttpEngine = engine;
 	}
 	
 	public void setHttpContext(HttpContext httpContext){
@@ -82,6 +91,7 @@ public abstract class AHttpRequest implements Runnable{
 		mAResponseHandler.sendStartRequestMessage(mRequestId);
 		execute();
 		mAResponseHandler.sendFinishRequestMessages(mRequestId);
+		mHttpEngine.cancelRequest(this, true);
 	}
 	
 	/**

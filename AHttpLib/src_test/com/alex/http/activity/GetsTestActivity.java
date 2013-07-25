@@ -79,7 +79,7 @@ public class GetsTestActivity extends Activity implements OnClickListener,
 				responseHandler.setStateListeners(this);
 				responseHandler.setReponseDataListeners(this);
 				AGetHttpRequest request = new AGetHttpRequest(handle,responseHandler, url);
-				AHttpEngine.getInstance().getRequest(this, request);
+				AHttpEngine.getInstance().doRequest(request);
 				break;
 
 			}
@@ -91,7 +91,6 @@ public class GetsTestActivity extends Activity implements OnClickListener,
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
-		AHttpEngine.getInstance().cancelRequest(this, true);
 	}
 
 	@Override

@@ -60,7 +60,7 @@ public class UploadTestActivity extends Activity implements OnClickListener, Sta
 			AUploadHttpRequest request = new AUploadHttpRequest(new AStringHandleable(), responseHandler,url);
 			PostFile file = new PostFile("/sdcard/com.sd.activity/books/P85.png", "headpic");
 			request.setUploadFilePath(file);
-			AHttpEngine.getInstance().uploadRequest(this, request);
+			AHttpEngine.getInstance().doRequest(request);
 			break;
 
 		default:

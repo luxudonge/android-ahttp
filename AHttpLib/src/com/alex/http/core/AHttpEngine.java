@@ -1,6 +1,7 @@
 package com.alex.http.core;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ import org.apache.http.protocol.HttpContext;
 import android.content.Context;
 
 import com.alex.http.request.AGetHttpRequest;
-import com.alex.http.request.AHttpRequest;
 import com.alex.http.request.APostHttpRequest;
 import com.alex.http.request.AResourceHttpRequest;
 import com.alex.http.request.AUploadHttpRequest;
@@ -46,10 +46,13 @@ public class AHttpEngine {
 	
 	private DefaultHttpClient mDefaultHttpClient;
 
-	private final Map<Context, List<WeakReference<Future<?>>>> mRequestMap;
+	private final Map<Integer, WeakReference<Future<?>>> mRequestMap;
+	
+	private final Map<Integer, AHttpRequest> mRequest;
 	
 	private AHttpEngine(){
-		mRequestMap = new WeakHashMap<Context, List<WeakReference<Future<?>>>>();
+		mRequestMap = new WeakHashMap<Integer, WeakReference<Future<?>>>();
+		mRequest = new HashMap<Integer, AHttpRequest>();
 	}
 	
 	public static AHttpEngine getInstance(){
@@ -90,90 +93,39 @@ public class AHttpEngine {
 		}
 	}
 
-	/**
-	 * 上传数据
-	 * @param context
-	 * @param request
-	 */
-	public void uploadRequest(Context context,AUploadHttpRequest request){
-		sendRequest(context, request);
+	
+	public void doRequest(AHttpRequest request){
+		sendRequest(request);
 	}
 	
-	/**
-	 * 下载资源
-	 * @param context
-	 * @param request
-	 */
-	public void resourceRequest(Context context,AResourceHttpRequest request){
-		sendRequest(context, request);
-	}
 	
-	/**
-	 * GET请求
-	 * @param context
-	 * @param request
-	 */
-	public void getRequest(Context context,AGetHttpRequest request){
-		sendRequest(context, request);
-	}
-	
-	/**
-	 * GET请求
-	 * @param context
-	 * @param request
-	 * @param httpContext
-	 */
-	public void getRequest(Context context,AGetHttpRequest request, HttpContext httpContext){
+	public void request(AHttpRequest request, HttpContext httpContext){
 		request.setHttpContext(httpContext);
-		sendRequest(context, request);
-	}
-	
-	/**
-	 * POST请求
-	 * @param context
-	 * @param request
-	 */
-	public void postRequest(Context context,APostHttpRequest request){
-		sendRequest(context, request);
-	}
-	
-	/**
-	 * POST请求
-	 * @param context
-	 * @param request
-	 * @param httpContext
-	 */
-	public void postRequest(Context context,APostHttpRequest request, HttpContext httpContext){
-		request.setHttpContext(httpContext);
-		sendRequest(context, request);
+		sendRequest(request);
 	}
 	
 	
-	private void sendRequest(Context context,AHttpRequest request){
-		request.setDefaultHttpClient(mDefaultHttpClient);
-		Future<?> future = mThreadPool.submit(request);
-		if(context != null){
-			 List<WeakReference<Future<?>>> requestList = mRequestMap.get(context);
-	            if(requestList == null) {
-	                requestList = new LinkedList<WeakReference<Future<?>>>();
-	                mRequestMap.put(context, requestList);
-	            }
-	            requestList.add(new WeakReference<Future<?>>(future));
+	private void sendRequest(AHttpRequest request){
+		if(mRequest.containsKey(request.getRequestId())){
+			return ;
+		}else{
+			mRequest.put(request.getID(), request);
+			request.setDefaultHttpClient(mDefaultHttpClient);
+			request.setHttpEngine(this);
+			Future<?> future = mThreadPool.submit(request);
+			mRequestMap.put(request.getID(), new WeakReference<Future<?>>(future));
 		}
 	}
 	
-	public void cancelRequest(Context context,boolean mayInterruptIfRunning){
-		List<WeakReference<Future<?>>> requestList = mRequestMap.get(context);
-		if(requestList != null){
-			for(WeakReference<Future<?>> requestRef : requestList) {
-                Future<?> request = requestRef.get();
-                if(request != null) {
-                    request.cancel(mayInterruptIfRunning);
-                }
-            }
-		}
-		mRequestMap.remove(context);
-	}
 	
+	public void cancelRequest(AHttpRequest request,boolean mayInterruptIfRunning){
+		WeakReference<Future<?>> requestRef = mRequestMap.get(request.getID());
+        Future<?> future = requestRef.get();
+        if(request != null) {
+        	future.cancel(mayInterruptIfRunning);
+        }
+		mRequest.remove(request.getRequestId());
+		mRequestMap.remove(request.getID());
+	}
 	
 }

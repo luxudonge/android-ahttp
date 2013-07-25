@@ -60,14 +60,13 @@ public class GetTestActivity extends Activity implements OnClickListener, StateL
 		case R.id.send:
 			String url = mUrlET.getText().toString();
 			if(url !=null){
-				progressDialog.show();
 				mResponseContentTV.setText("");
 				AStringHandleable handle=new AStringHandleable();
 				AResponseHandler responseHandler = new AResponseHandler();
 				responseHandler.setStateListeners(this);
 				responseHandler.setReponseDataListeners(this);
 				AGetHttpRequest request = new AGetHttpRequest(handle, responseHandler, url);
-				AHttpEngine.getInstance().getRequest(this, request);
+				AHttpEngine.getInstance().doRequest( request);
 			}
 			break;
 
@@ -79,7 +78,7 @@ public class GetTestActivity extends Activity implements OnClickListener, StateL
 	@Override
 	public void onStartRequest(int requestId) {
 		// TODO Auto-generated method stub
-		
+		progressDialog.show();
 	}
 
 	@Override

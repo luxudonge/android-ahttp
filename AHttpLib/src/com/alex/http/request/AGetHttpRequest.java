@@ -10,6 +10,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.alex.http.core.AHttpLog;
+import com.alex.http.core.AHttpRequest;
 
 /**
  * 

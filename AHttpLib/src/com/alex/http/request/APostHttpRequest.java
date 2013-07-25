@@ -15,6 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 
+import com.alex.http.core.AHttpRequest;
 import com.other.AGetRequestParams;
 
 /**
