@@ -17,6 +17,8 @@ import com.alex.http.request.ResponseHandler;
 
 /**
  * 
+ * 核心请求类
+ * 
  * @author Alex.Lu
  * 
  */

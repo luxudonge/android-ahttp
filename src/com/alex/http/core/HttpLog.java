@@ -2,6 +2,13 @@ package com.alex.http.core;
 
 import android.util.Log;
 
+/**
+ * 
+ * 日志打印类
+ * 
+ * @author Alex.Lu
+ *
+ */
 public class HttpLog {
 	
 	public static AHttpLogListener mAHttpLogListener;

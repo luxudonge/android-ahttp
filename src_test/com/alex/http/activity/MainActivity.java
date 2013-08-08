@@ -18,13 +18,19 @@ import android.widget.Button;
 public class MainActivity extends Activity implements OnClickListener {
 
 	private final static String TAG = "TestMainActivity";
-	
+	//get请求按钮
 	private Button mGetRequestBT;
+	//多次get请求按钮
 	private Button mGetsRequestBT;
+	//post请求按钮
 	private Button mPostRequestBT;
+	//资源下载按钮
 	private Button mDownloadRequestBT;
+	//资源上传按钮
 	private Button mUploadRequestBT;
+	//rss解析数据按钮
 	private Button mRssRequestBT;
+	//退出按钮
 	private Button mExitBT;
 	
 	@Override

@@ -7,7 +7,7 @@ import org.apache.http.HttpEntity;
 
 /**
  * 
- * 解析类
+ * 解析流数据
  * 
  * @author Alex.Lu
  * 

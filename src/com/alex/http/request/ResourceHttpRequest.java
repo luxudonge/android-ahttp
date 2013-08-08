@@ -20,7 +20,7 @@ import com.alex.http.exception.HttpException;
 
 /**
  * 
- * get请求
+ * 获取资源请求
  * 
  * @author Alex.Lu
  *
@@ -32,10 +32,14 @@ public class ResourceHttpRequest extends HttpRequest implements Handleable{
 	public static String ENDCODING = "UTF-8";
 	
 	private List<BasicNameValuePair> mUrlParams;
-	
+
+	/*每0.1秒返回更新书籍*/
 	private final int updateIntervalmillis = 100;
+	/*资源暂时路径*/
 	private String mTempPath;
+	/*资源目标路径*/
 	private String mTargetPath;
+	/*读取的数据块 8*1024 */
 	private byte buffer[] = new byte[8 * 1024];
 	private int len = -1;
 	private long mHasDownload = 0;
@@ -117,8 +121,6 @@ public class ResourceHttpRequest extends HttpRequest implements Handleable{
 			mUrlParams.add(new BasicNameValuePair(key, value));
 		}
 	}
-
-	
 
 	@Override
 	public Object handle(int requestId, HttpEntity paramInputStream)

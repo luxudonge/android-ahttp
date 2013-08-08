@@ -18,7 +18,7 @@ import com.other.PostFile;
 
 /**
  * 
- * 上传文件
+ * 上传文件（需要改进，增加多个资源上传）
  * 
  * @author Alex.Lu
  *

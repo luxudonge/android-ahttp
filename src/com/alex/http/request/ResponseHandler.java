@@ -30,6 +30,7 @@ public class ResponseHandler {
 	/*请求上传数据*/
 	protected static final int UPLOAD_MESSAGE = 6;
 	
+	
 	private ReponseUpdateDataListeners mReponseUpdateDataListeners;
 	private ReponseDataListeners mReponseDataListeners;
 	private StateListeners mStateListeners;
@@ -232,6 +233,7 @@ public class ResponseHandler {
 			break;
 		}
 	}
+	
 	
 	private void sendMessage(Message msg){
 		if(mHandler != null){

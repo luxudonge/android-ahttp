@@ -61,14 +61,27 @@ public class GetHttpRequest extends HttpRequest {
 		mHttpResponse = mClient.execute(mHttpGet, mHttpContext);
 	}
 	
+	/**
+	 * 设置参数
+	 * @param key 
+	 * @param value 
+	 */
 	public void putUrlParam(String key,int value){
 		putUrlParam(key, String.valueOf(value));
 	}
-	
+	/**
+	 * 设置参数
+	 * @param key 
+	 * @param value 
+	 */
 	public void putUrlParam(String key,long value){
 		putUrlParam(key, String.valueOf(value));
 	}
-	
+	/**
+	 * 设置参数
+	 * @param key 
+	 * @param value 
+	 */
 	public void putUrlParam(String key,String value){
 		if(key!=null && value != null){
 			mUrlParams.add(new BasicNameValuePair(key, value));

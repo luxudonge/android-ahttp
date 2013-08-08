@@ -11,12 +11,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HttpContext;
 
 import com.alex.http.core.HttpRequest;
-import com.other.AGetRequestParams;
 
 /**
  * 
@@ -71,18 +68,39 @@ public class PostHttpRequest extends HttpRequest {
 		mHttpResponse = mClient.execute(mHttpPost, mHttpContext);
 	}
 	
+
+	/**
+	 * post数据
+	 * @param postData
+	 */
 	public void putPostBtys(byte[] postData){
 		mEntity = new ByteArrayEntity(postData);
 	}
 	
+	/**
+	 * post数据参数
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void putPostContentParam(String key,int value){
 		putPostContentParam(key, String.valueOf(value));
 	}
-	
+	/**
+	 * post数据参数
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void putPostContentParam(String key,long value){
 		putPostContentParam(key, String.valueOf(value));
 	}
-	
+	/**
+	 * post数据参数
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void putPostContentParam(String key,String value){
 		if(mEntity == null){
 			try {
@@ -97,14 +115,32 @@ public class PostHttpRequest extends HttpRequest {
 		}
 	}
 	
+	/**
+	 * url参数
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void putUrlParam(String key,int value){
 		putUrlParam(key, String.valueOf(value));
 	}
 	
+	/**
+	 * url参数
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void putUrlParam(String key,long value){
 		putUrlParam(key, String.valueOf(value));
 	}
 	
+	/**
+	 * url参数
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void putUrlParam(String key,String value){
 		if(key!=null && value != null){
 			mUrlParams.add(new BasicNameValuePair(key, value));

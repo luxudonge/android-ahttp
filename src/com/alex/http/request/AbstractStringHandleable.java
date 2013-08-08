@@ -8,7 +8,7 @@ import org.apache.http.util.EntityUtils;
 
 /**
  * 
- * 解析类
+ * 解析字符串数据
  * 
  * @author Alex.Lu
  * 

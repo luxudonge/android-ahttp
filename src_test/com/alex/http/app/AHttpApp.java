@@ -7,15 +7,18 @@ import android.app.Application;
 /**
  * 
  * 
+ * 
  * @author Alex.Lu
  *
  */
 public class AHttpApp extends Application{
 
+	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
+		
 		HttpConfiguration httpConfiguration = new HttpConfiguration.Builder()
 		.enLog()
 		.build();
