@@ -1,0 +1,228 @@
+com.alex.http.core.HttpConfiguration -> com.alex.http.core.HttpConfiguration:
+    boolean mLoggingEnabled -> a
+    int mSocketTimeout -> b
+    int mMaxConnectionsPerRoute -> c
+    int mSoSocketTimeout -> d
+    int mConnectionTimeout -> e
+    int mSocketBufferSize -> f
+    int mThreadPoolSize -> g
+com.alex.http.core.HttpConfiguration$Builder -> com.alex.http.core.HttpConfiguration$Builder:
+    boolean mLoggingEnabled -> a
+    int mSocketTimeout -> b
+    int mMaxConnectionsPerRoute -> c
+    int mMaxTotalConnections -> d
+    int mSocketBufferSize -> e
+    int mSoSocketTimeout -> f
+    int mConnectionTimeout -> g
+    int mThreadPoolSize -> h
+    com.alex.http.core.HttpRequestConfiguration mAHttpConfiguration -> i
+    com.alex.http.core.HttpConfiguration$Builder defaultAHttpRequestConfiguration(com.alex.http.core.HttpRequestConfiguration) -> defaultAHttpRequestConfiguration
+    com.alex.http.core.HttpConfiguration$Builder enLog() -> enLog
+    com.alex.http.core.HttpConfiguration$Builder setMaxConectionsPerRounte(int) -> setMaxConectionsPerRounte
+    com.alex.http.core.HttpConfiguration$Builder setSocketBufferSize(int) -> setSocketBufferSize
+    com.alex.http.core.HttpConfiguration$Builder setSoSocketTimeout(int) -> setSoSocketTimeout
+    com.alex.http.core.HttpConfiguration$Builder setconnectionTime(int) -> setconnectionTime
+    com.alex.http.core.HttpConfiguration$Builder setThreadPoolSize(int) -> setThreadPoolSize
+    com.alex.http.core.HttpConfiguration build() -> build
+    com.alex.http.core.HttpRequestConfiguration access$000(com.alex.http.core.HttpConfiguration$Builder) -> a
+    boolean access$100(com.alex.http.core.HttpConfiguration$Builder) -> b
+    int access$200(com.alex.http.core.HttpConfiguration$Builder) -> c
+    int access$300(com.alex.http.core.HttpConfiguration$Builder) -> d
+    int access$400(com.alex.http.core.HttpConfiguration$Builder) -> e
+    int access$500(com.alex.http.core.HttpConfiguration$Builder) -> f
+    int access$600(com.alex.http.core.HttpConfiguration$Builder) -> g
+    int access$700(com.alex.http.core.HttpConfiguration$Builder) -> h
+    int access$800(com.alex.http.core.HttpConfiguration$Builder) -> i
+com.alex.http.core.HttpEngine -> com.alex.http.core.HttpEngine:
+    com.alex.http.core.HttpEngine mInstance -> a
+    java.util.concurrent.ThreadPoolExecutor mThreadPool -> b
+    org.apache.http.impl.client.DefaultHttpClient mDefaultHttpClient -> c
+    java.util.Map mRequestMap -> d
+    java.util.Hashtable mRequest -> e
+    com.alex.http.core.HttpEngine getInstance() -> getInstance
+    void init(com.alex.http.core.HttpConfiguration) -> init
+    void doRequest(com.alex.http.core.HttpRequest) -> doRequest
+    void doRequest(com.alex.http.core.HttpRequest,org.apache.http.protocol.HttpContext) -> doRequest
+    void doRequest(com.alex.http.core.HttpRequest,org.apache.http.protocol.HttpContext,org.apache.http.client.HttpClient) -> doRequest
+    void sendRequest(com.alex.http.core.HttpRequest) -> a
+    void cancelRequest(com.alex.http.core.HttpRequest,boolean) -> cancelRequest
+com.alex.http.core.HttpLog -> com.alex.http.core.HttpLog:
+    com.alex.http.core.HttpLog$AHttpLogListener mAHttpLogListener -> mAHttpLogListener
+    void print(java.lang.Object,java.lang.String) -> print
+    void print(java.lang.Object,int,java.lang.String) -> print
+    void print(java.lang.String,java.lang.String) -> print
+com.alex.http.core.HttpLog$AHttpLogListener -> com.alex.http.core.HttpLog$AHttpLogListener:
+    void onListeners(java.lang.String,java.lang.String) -> onListeners
+com.alex.http.core.HttpRequest -> com.alex.http.core.HttpRequest:
+    int COUNTER -> a
+    int _ID -> b
+    com.alex.http.request.ResponseHandler mAResponseHandler -> mAResponseHandler
+    com.alex.http.request.Handleable mParse -> mParse
+    org.apache.http.client.HttpClient mClient -> mClient
+    org.apache.http.HttpResponse mHttpResponse -> mHttpResponse
+    org.apache.http.protocol.HttpContext mHttpContext -> mHttpContext
+    com.alex.http.core.HttpEngine mHttpEngine -> c
+    int mRequestId -> mRequestId
+    java.lang.String mURL -> mURL
+    int mCount -> d
+    void setAHandleable(com.alex.http.request.Handleable) -> setAHandleable
+    void setDefaultHttpClient(org.apache.http.client.HttpClient) -> a
+    void setHttpEngine(com.alex.http.core.HttpEngine) -> a
+    void setHttpContext(org.apache.http.protocol.HttpContext) -> setHttpContext
+    void run() -> run
+    void buildRequest() -> buildRequest
+    void doRequest() -> doRequest
+    boolean repeatRequest() -> a
+    void execute() -> b
+    int getRequestId() -> getRequestId
+    int getID() -> getID
+com.alex.http.core.HttpRequestConfiguration -> com.alex.http.core.HttpRequestConfiguration:
+    int mSendNumber -> a
+    int getNumber() -> getNumber
+com.alex.http.core.HttpRequestConfiguration$Builder -> com.alex.http.core.HttpRequestConfiguration$Builder:
+    int mSendNumber -> a
+    com.alex.http.core.HttpRequestConfiguration build() -> build
+    void setSendNumber(int) -> setSendNumber
+    int access$000(com.alex.http.core.HttpRequestConfiguration$Builder) -> a
+com.alex.http.exception.HttpException -> com.alex.http.exception.HttpException:
+    long serialVersionUID -> serialVersionUID
+com.alex.http.request.AbstractStreamHandleable -> com.alex.http.request.AbstractStreamHandleable:
+    java.lang.Object handle(long,java.io.InputStream) -> handle
+    java.lang.Object handle(int,org.apache.http.HttpEntity) -> handle
+com.alex.http.request.AbstractStringHandleable -> com.alex.http.request.AbstractStringHandleable:
+    java.lang.Object handle(long,java.lang.String) -> handle
+    java.lang.Object handle(int,org.apache.http.HttpEntity) -> handle
+com.alex.http.request.GetHttpRequest -> com.alex.http.request.GetHttpRequest:
+    org.apache.http.client.methods.HttpGet mHttpGet -> a
+    java.lang.String ENDCODING -> ENDCODING
+    java.util.List mUrlParams -> b
+    void buildRequest() -> buildRequest
+    void doRequest() -> doRequest
+    void putUrlParam(java.lang.String,int) -> putUrlParam
+    void putUrlParam(java.lang.String,long) -> putUrlParam
+    void putUrlParam(java.lang.String,java.lang.String) -> putUrlParam
+com.alex.http.request.Handleable -> com.alex.http.request.Handleable:
+    java.lang.Object handle(int,org.apache.http.HttpEntity) -> handle
+com.alex.http.request.HeadHttpRequest -> com.alex.http.request.HeadHttpRequest:
+    org.apache.http.client.methods.HttpHead mHttpHead -> a
+    java.lang.String ENDCODING -> ENDCODING
+    void buildRequest() -> buildRequest
+    void doRequest() -> doRequest
+    void putUrlParam(java.lang.String,int) -> putUrlParam
+    void putUrlParam(java.lang.String,long) -> putUrlParam
+    void putUrlParam(java.lang.String,java.lang.String) -> putUrlParam
+com.alex.http.request.PostHttpRequest -> com.alex.http.request.PostHttpRequest:
+    org.apache.http.client.methods.HttpPost mHttpPost -> a
+    java.lang.String ENDCODING -> ENDCODING
+    java.util.List mUrlParams -> b
+    java.util.List mPostConentParams -> c
+    org.apache.http.HttpEntity mEntity -> d
+    void buildRequest() -> buildRequest
+    void doRequest() -> doRequest
+    void putPostBtys(byte[]) -> putPostBtys
+    void putPostContentParam(java.lang.String,int) -> putPostContentParam
+    void putPostContentParam(java.lang.String,long) -> putPostContentParam
+    void putPostContentParam(java.lang.String,java.lang.String) -> putPostContentParam
+    void putUrlParam(java.lang.String,int) -> putUrlParam
+    void putUrlParam(java.lang.String,long) -> putUrlParam
+    void putUrlParam(java.lang.String,java.lang.String) -> putUrlParam
+com.alex.http.request.ReponseDataListeners -> com.alex.http.request.ReponseDataListeners:
+    void onSuccessResult(int,int,java.lang.Object) -> onSuccessResult
+    void onErrorResult(int,int,java.lang.Throwable) -> onErrorResult
+com.alex.http.request.ReponseUpdateDataListeners -> com.alex.http.request.ReponseUpdateDataListeners:
+    void updateDownloadData(int,long,long) -> updateDownloadData
+com.alex.http.request.ResourceHttpRequest -> com.alex.http.request.ResourceHttpRequest:
+    org.apache.http.client.methods.HttpGet mHttpGet -> a
+    java.lang.String ENDCODING -> ENDCODING
+    java.util.List mUrlParams -> b
+    java.lang.String mTempPath -> c
+    java.lang.String mTargetPath -> d
+    byte[] buffer -> e
+    int len -> f
+    long mHasDownload -> g
+    long size -> h
+    java.lang.String mName -> i
+    boolean isStop -> j
+    void setResouceDir(java.lang.String) -> setResouceDir
+    void buildRequest() -> buildRequest
+    void doRequest() -> doRequest
+    void putUrlParam(java.lang.String,int) -> putUrlParam
+    void putUrlParam(java.lang.String,long) -> putUrlParam
+    void putUrlParam(java.lang.String,java.lang.String) -> putUrlParam
+    java.lang.Object handle(int,org.apache.http.HttpEntity) -> handle
+com.alex.http.request.ResponseHandler -> com.alex.http.request.ResponseHandler:
+    int SUCCESS_MESSAGE -> SUCCESS_MESSAGE
+    int FAILURE_MESSAGE -> FAILURE_MESSAGE
+    int START_MESSAGE -> START_MESSAGE
+    int FINISH_MESSAGE -> FINISH_MESSAGE
+    int UPDATE_MESSAGE -> UPDATE_MESSAGE
+    int REPEAT_MESSAGE -> REPEAT_MESSAGE
+    int UPLOAD_MESSAGE -> UPLOAD_MESSAGE
+    com.alex.http.request.ReponseUpdateDataListeners mReponseUpdateDataListeners -> a
+    com.alex.http.request.ReponseDataListeners mReponseDataListeners -> b
+    com.alex.http.request.StateListeners mStateListeners -> c
+    com.alex.http.request.UploadDataListeners mUploadDataListeners -> d
+    android.os.Handler mHandler -> e
+    void setReponseUpdateDataListeners(com.alex.http.request.ReponseUpdateDataListeners) -> setReponseUpdateDataListeners
+    void setReponseDataListeners(com.alex.http.request.ReponseDataListeners) -> setReponseDataListeners
+    void setStateListeners(com.alex.http.request.StateListeners) -> setStateListeners
+    void setUploadDataListeners(com.alex.http.request.UploadDataListeners) -> setUploadDataListeners
+    android.os.Message obtainMessage(int,int,java.lang.Object) -> a
+    void sendSuccessMessage(int,int,java.lang.Object) -> sendSuccessMessage
+    void sendErrorMessage(int,int,java.lang.Throwable) -> sendErrorMessage
+    void sendStartRequestMessage(int) -> sendStartRequestMessage
+    void sendFinishRequestMessages(int) -> sendFinishRequestMessages
+    void sendReqeatRequestMessages(int,int) -> sendReqeatRequestMessages
+    void sendUpdateDataMessage(int,long,long) -> sendUpdateDataMessage
+    void sendUpdateUploadDataMessaget(int,int,int,int,int) -> sendUpdateUploadDataMessaget
+    void handleMessage(android.os.Message) -> a
+    void sendMessage(android.os.Message) -> b
+    void access$000(com.alex.http.request.ResponseHandler,android.os.Message) -> a
+com.alex.http.request.ResponseHandler$1 -> com.alex.http.request.ResponseHandler$1:
+    com.alex.http.request.ResponseHandler this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.alex.http.request.StateListeners -> com.alex.http.request.StateListeners:
+    void onStartRequest(int) -> onStartRequest
+    void onFinishRequest(int) -> onFinishRequest
+    void onRepeatRequest(int,int) -> onRepeatRequest
+com.alex.http.request.StringHandleable -> com.alex.http.request.StringHandleable:
+    java.lang.Object handle(long,java.lang.String) -> handle
+com.alex.http.request.UploadDataListeners -> com.alex.http.request.UploadDataListeners:
+    void updataUploadData(int,int,int,int,int) -> updataUploadData
+com.alex.http.request.UploadHttpRequest -> com.alex.http.request.UploadHttpRequest:
+    java.lang.String ENDCODING -> ENDCODING
+    org.apache.http.client.methods.HttpPost mHttpPost -> a
+    java.util.List mUrlParams -> b
+    org.apache.http.entity.ByteArrayEntity mEntity -> c
+    java.util.ArrayList mArrayList -> d
+    void setUploadFilePath(com.other.PostFile) -> setUploadFilePath
+    void setUploadFilesPath(java.lang.String[]) -> setUploadFilesPath
+    void buildRequest() -> buildRequest
+    void doRequest() -> doRequest
+    void putUrlParam(java.lang.String,int) -> putUrlParam
+    void putUrlParam(java.lang.String,long) -> putUrlParam
+    void putUrlParam(java.lang.String,java.lang.String) -> putUrlParam
+com.other.AGetRequestParams -> com.other.AGetRequestParams:
+com.other.APostRequestParmas -> com.other.APostRequestParmas:
+    java.util.concurrent.ConcurrentHashMap mPostParams -> a
+    void putPostParam(java.lang.String,int) -> putPostParam
+    void putPostParam(java.lang.String,long) -> putPostParam
+    void putPostParam(java.lang.String,java.lang.String) -> putPostParam
+com.other.ARequestParams -> com.other.ARequestParams:
+    java.lang.String ENDCODING -> ENDCODING
+    java.util.concurrent.ConcurrentHashMap mUrlParams -> a
+    void putUrlParam(java.lang.String,int) -> putUrlParam
+    void putUrlParam(java.lang.String,long) -> putUrlParam
+    void putUrlParam(java.lang.String,java.lang.String) -> putUrlParam
+com.other.PostFile -> com.other.PostFile:
+    java.io.File mFile -> a
+    java.lang.String mFileName -> b
+    java.lang.String mFilePath -> c
+    java.lang.String mParameterName -> d
+    java.lang.String mContentType -> e
+    java.io.FileInputStream getInputStream() -> getInputStream
+    java.lang.String getFilePath() -> getFilePath
+    java.lang.String getFileName() -> getFileName
+    java.lang.String getParameterName() -> getParameterName
+    java.lang.String getContentType() -> getContentType
+    long getFileSize() -> getFileSize

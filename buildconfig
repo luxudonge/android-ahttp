@@ -1,0 +1,19 @@
+#此文档用来设定一些在build.xml文件中常用的属性
+
+
+
+proguard.dir=proguard
+
+build.dir=${proguard.dir}/build
+
+#编译后类的存放位置
+build.dir.classes=${build.dir}/classes
+
+#jar文件最终放置位置
+build.dir.bin=${build.dir}/bin
+
+#未经混淆的jar文件
+build.dir.bin.in=${build.dir.bin}/in.jar
+
+src.dir = src
+
