@@ -1,10 +1,9 @@
 package com.alex.http.request;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.util.EntityUtils;
 
 /**
  * 
@@ -13,10 +12,10 @@ import org.apache.http.util.EntityUtils;
  * @author Alex.Lu
  * 
  */
-public abstract class AAbstractStringHandleable implements AHandleable{
+public abstract class AbstractStreamHandleable implements Handleable{
 
 	
-	public abstract Object handle(long requestId,String content);
+	public abstract Object handle(long requestId,InputStream inputStream);
 
 	/**
 	 * 返回一个数据流
@@ -25,11 +24,10 @@ public abstract class AAbstractStringHandleable implements AHandleable{
 	 * @return 返回数据
 	 * @throws IOException 
 	 */
+	
 	@Override
 	public Object handle(int requestId,HttpEntity entity) throws IOException{
-		entity = new BufferedHttpEntity(entity);
-        String responseBody = EntityUtils.toString(entity, "UTF-8");
-        Object data = handle(requestId, responseBody);
+        Object data = handle(requestId, entity.getContent());
 		return data;
 		
 	}

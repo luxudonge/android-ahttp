@@ -1,9 +1,7 @@
 package com.alex.http.core;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.Executors;
@@ -11,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
 import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.params.ConnPerRouteBean;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -24,12 +23,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HttpContext;
 
-import android.content.Context;
-
-import com.alex.http.request.AGetHttpRequest;
-import com.alex.http.request.APostHttpRequest;
-import com.alex.http.request.AResourceHttpRequest;
-import com.alex.http.request.AUploadHttpRequest;
+import com.alex.http.exception.HttpException;
 
 /**
  * 
@@ -38,9 +32,9 @@ import com.alex.http.request.AUploadHttpRequest;
  * @author Alex.Lu
  *
  */
-public class AHttpEngine {
+public class HttpEngine {
 
-	private static AHttpEngine mInstance;
+	private static HttpEngine mInstance;
 	
 	private ThreadPoolExecutor mThreadPool;
 	
@@ -48,16 +42,16 @@ public class AHttpEngine {
 
 	private final Map<Integer, WeakReference<Future<?>>> mRequestMap;
 	
-	private final Map<Integer, AHttpRequest> mRequest;
+	private final Hashtable<Integer, HttpRequest> mRequest;
 	
-	private AHttpEngine(){
+	private HttpEngine(){
 		mRequestMap = new WeakHashMap<Integer, WeakReference<Future<?>>>();
-		mRequest = new HashMap<Integer, AHttpRequest>();
+		mRequest = new Hashtable<Integer, HttpRequest>();
 	}
 	
-	public static AHttpEngine getInstance(){
+	public static HttpEngine getInstance(){
 		if(mInstance==null){
-			mInstance = new AHttpEngine();
+			mInstance = new HttpEngine();
 		}
 		return mInstance;
 	}
@@ -66,7 +60,7 @@ public class AHttpEngine {
 	 * 初始化
 	 * @param httpConfiguration
 	 */
-	public void init(AHttpConfiguration httpConfiguration){
+	public void init(HttpConfiguration httpConfiguration){
 		BasicHttpParams httpParams = new BasicHttpParams();
 		
 		ConnManagerParams.setTimeout(httpParams, httpConfiguration.mSocketTimeout);
@@ -93,32 +87,58 @@ public class AHttpEngine {
 		}
 	}
 
-	
-	public void doRequest(AHttpRequest request){
+	/**
+	 * 
+	 * @param request
+	 */
+	public void doRequest(HttpRequest request){
+		request.setHttpEngine(this);
+		request.setDefaultHttpClient(mDefaultHttpClient);
 		sendRequest(request);
 	}
 	
-	
-	public void request(AHttpRequest request, HttpContext httpContext){
+	/**
+	 * 
+	 * @param request
+	 * @param httpContext
+	 */
+	public void doRequest(HttpRequest request, HttpContext httpContext){
 		request.setHttpContext(httpContext);
+		request.setDefaultHttpClient(mDefaultHttpClient);
+		request.setHttpEngine(this);
+		sendRequest(request);
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param httpContext
+	 * @param httpClient
+	 * @throws HttpException 
+	 */
+	public void doRequest(HttpRequest request, HttpContext httpContext,HttpClient httpClient) throws HttpException{
+		if(httpClient == null){
+			throw new HttpException("httpClient is null");
+		}
+		request.setDefaultHttpClient(httpClient);
+		request.setHttpContext(httpContext);
+		request.setHttpEngine(this);
 		sendRequest(request);
 	}
 	
 	
-	private void sendRequest(AHttpRequest request){
+	private void sendRequest(HttpRequest request){
 		if(mRequest.containsKey(request.getRequestId())){
 			return ;
 		}else{
 			mRequest.put(request.getID(), request);
-			request.setDefaultHttpClient(mDefaultHttpClient);
-			request.setHttpEngine(this);
 			Future<?> future = mThreadPool.submit(request);
 			mRequestMap.put(request.getID(), new WeakReference<Future<?>>(future));
 		}
 	}
 	
 	
-	public void cancelRequest(AHttpRequest request,boolean mayInterruptIfRunning){
+	public void cancelRequest(HttpRequest request,boolean mayInterruptIfRunning){
 		WeakReference<Future<?>> requestRef = mRequestMap.get(request.getID());
         Future<?> future = requestRef.get();
         if(request != null) {

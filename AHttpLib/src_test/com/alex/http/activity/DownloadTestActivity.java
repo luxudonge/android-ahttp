@@ -9,9 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.alex.http.core.AHttpEngine;
-import com.alex.http.request.AResourceHttpRequest;
-import com.alex.http.request.AResponseHandler;
+import com.alex.http.core.HttpEngine;
+import com.alex.http.request.ResourceHttpRequest;
+import com.alex.http.request.ResponseHandler;
 import com.alex.http.request.ReponseUpdateDataListeners;
 import com.alex.http.request.StateListeners;
 
@@ -66,13 +66,13 @@ public class DownloadTestActivity extends Activity implements StateListeners, On
 		case R.id.stop:
 			break;
 		case R.id.begin:
-			AResponseHandler responseHandler = new AResponseHandler();
+			ResponseHandler responseHandler = new ResponseHandler();
 			responseHandler.setStateListeners(this);
 			responseHandler.setReponseUpdateDataListeners(this);
-			AResourceHttpRequest request = new AResourceHttpRequest("jj.jpg", responseHandler, "http://5.gaosu.com/download/pic/000/322/389b3983fd9191c8fc71bece50671612.jpg");
+			ResourceHttpRequest request = new ResourceHttpRequest(0,"jj.jpg", responseHandler, "http://5.gaosu.com/download/pic/000/322/389b3983fd9191c8fc71bece50671612.jpg");
 			
 			request.setResouceDir("/sdcard/");
-			AHttpEngine.getInstance().doRequest(request);
+			HttpEngine.getInstance().doRequest(request);
 		      
 			break;
 		default:

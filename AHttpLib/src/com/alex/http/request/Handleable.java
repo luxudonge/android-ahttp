@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.apache.http.HttpEntity;
 
+import com.alex.http.exception.HttpException;
+
 /**
  * 
  * 解析类
@@ -11,7 +13,7 @@ import org.apache.http.HttpEntity;
  * @author Alex.Lu
  * 
  */
-public interface AHandleable {
+public interface Handleable {
 
 	
 
@@ -22,5 +24,5 @@ public interface AHandleable {
 	 * @return 返回数据
 	 * @throws IOException 
 	 */
-	public Object handle(int requestId,HttpEntity paramInputStream) throws AHttpException, IOException;
+	public Object handle(int requestId,HttpEntity paramInputStream) throws HttpException, IOException;
 }

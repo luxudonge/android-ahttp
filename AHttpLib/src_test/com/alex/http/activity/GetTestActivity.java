@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alex.http.core.AHttpEngine;
-import com.alex.http.request.AGetHttpRequest;
-import com.alex.http.request.AResponseHandler;
-import com.alex.http.request.AStringHandleable;
+import com.alex.http.core.HttpEngine;
+import com.alex.http.request.GetHttpRequest;
+import com.alex.http.request.ResponseHandler;
+import com.alex.http.request.StringHandleable;
 import com.alex.http.request.ReponseDataListeners;
 import com.alex.http.request.StateListeners;
 
@@ -61,12 +61,12 @@ public class GetTestActivity extends Activity implements OnClickListener, StateL
 			String url = mUrlET.getText().toString();
 			if(url !=null){
 				mResponseContentTV.setText("");
-				AStringHandleable handle=new AStringHandleable();
-				AResponseHandler responseHandler = new AResponseHandler();
+				StringHandleable handle=new StringHandleable();
+				ResponseHandler responseHandler = new ResponseHandler();
 				responseHandler.setStateListeners(this);
 				responseHandler.setReponseDataListeners(this);
-				AGetHttpRequest request = new AGetHttpRequest(handle, responseHandler, url);
-				AHttpEngine.getInstance().doRequest( request);
+				GetHttpRequest request = new GetHttpRequest(0,handle, responseHandler, url);
+				HttpEngine.getInstance().doRequest( request);
 			}
 			break;
 

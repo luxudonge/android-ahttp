@@ -10,10 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alex.http.core.AHttpEngine;
-import com.alex.http.request.APostHttpRequest;
-import com.alex.http.request.AResponseHandler;
-import com.alex.http.request.AStringHandleable;
+import com.alex.http.core.HttpEngine;
+import com.alex.http.request.PostHttpRequest;
+import com.alex.http.request.ResponseHandler;
+import com.alex.http.request.StringHandleable;
 import com.alex.http.request.ReponseDataListeners;
 import com.alex.http.request.StateListeners;
 
@@ -68,11 +68,11 @@ public class PostTestActivity extends Activity implements OnClickListener, State
 			if (url != null && postData !=null) {
 				mResponseContentTV.setText("");
 				
-				AStringHandleable handle=new AStringHandleable();
-				AResponseHandler responseHandler = new AResponseHandler();
+				StringHandleable handle=new StringHandleable();
+				ResponseHandler responseHandler = new ResponseHandler();
 				responseHandler.setStateListeners(this);
 				responseHandler.setReponseDataListeners(this);
-				APostHttpRequest request = new APostHttpRequest(handle, responseHandler, url);
+				PostHttpRequest request = new PostHttpRequest(0,handle, responseHandler, url);
 				
 				String[] enterys = postData.split(";");
 				for(int i=0;i<enterys.length;i++){
@@ -81,7 +81,7 @@ public class PostTestActivity extends Activity implements OnClickListener, State
 					request.putPostContentParam(values[0], values[1]);
 				}
 				
-				AHttpEngine.getInstance().doRequest(request);
+				HttpEngine.getInstance().doRequest(request);
 			}
 			break;
 

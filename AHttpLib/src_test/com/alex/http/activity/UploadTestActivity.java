@@ -1,9 +1,9 @@
 package com.alex.http.activity;
 
-import com.alex.http.core.AHttpEngine;
-import com.alex.http.request.AResponseHandler;
-import com.alex.http.request.AStringHandleable;
-import com.alex.http.request.AUploadHttpRequest;
+import com.alex.http.core.HttpEngine;
+import com.alex.http.request.ResponseHandler;
+import com.alex.http.request.StringHandleable;
+import com.alex.http.request.UploadHttpRequest;
 import com.alex.http.request.ReponseDataListeners;
 import com.alex.http.request.StateListeners;
 import com.alex.http.request.UploadDataListeners;
@@ -53,14 +53,14 @@ public class UploadTestActivity extends Activity implements OnClickListener, Sta
 		switch (v.getId()) {
 		case R.id.upload:
 			String url = "http://www.rongshuxia.com/bookapi/postheadpic/data-json-fid-5-auth-72e327a0-uid-101072657.html";
-			AResponseHandler responseHandler = new AResponseHandler();
+			ResponseHandler responseHandler = new ResponseHandler();
 			responseHandler.setReponseDataListeners(this);
 			responseHandler.setStateListeners(this);
 			responseHandler.setUploadDataListeners(this);
-			AUploadHttpRequest request = new AUploadHttpRequest(new AStringHandleable(), responseHandler,url);
+			UploadHttpRequest request = new UploadHttpRequest(0,new StringHandleable(), responseHandler,url);
 			PostFile file = new PostFile("/sdcard/com.sd.activity/books/P85.png", "headpic");
 			request.setUploadFilePath(file);
-			AHttpEngine.getInstance().doRequest(request);
+			HttpEngine.getInstance().doRequest(request);
 			break;
 
 		default:

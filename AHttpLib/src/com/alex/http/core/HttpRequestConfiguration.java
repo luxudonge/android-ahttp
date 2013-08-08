@@ -1,10 +1,10 @@
 package com.alex.http.core;
 
-public final class AHttpRequestConfiguration {
+public final class HttpRequestConfiguration {
 
 	private final int mSendNumber;
 	
-	private AHttpRequestConfiguration(Builder builder){
+	private HttpRequestConfiguration(Builder builder){
 		mSendNumber = builder.mSendNumber;
 	}
 
@@ -13,8 +13,8 @@ public final class AHttpRequestConfiguration {
 		
 		private int mSendNumber;
 		
-		public AHttpRequestConfiguration build(){
-			return new AHttpRequestConfiguration(this);
+		public HttpRequestConfiguration build(){
+			return new HttpRequestConfiguration(this);
 		}
 		
 		public void setSendNumber(int count){

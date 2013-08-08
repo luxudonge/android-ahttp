@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.alex.http.core.AHttpLog;
+import com.alex.http.core.HttpLog;
 
 /**
  * 
@@ -13,7 +13,7 @@ import com.alex.http.core.AHttpLog;
  * @author Alex.Lu
  *
  */
-public class AResponseHandler {
+public class ResponseHandler {
 
 	/*数据请求成功消息*/
 	protected static final int SUCCESS_MESSAGE = 0;
@@ -37,13 +37,13 @@ public class AResponseHandler {
 	
 	private Handler mHandler;
 	
-	public AResponseHandler(){
+	public ResponseHandler(){
 		if(Looper.myLooper() != null){
 			mHandler = new Handler(){
 				@Override
 				public void handleMessage(Message msg) {
 					// TODO Auto-generated method stub
-					AResponseHandler.this.handleMessage(msg);
+					ResponseHandler.this.handleMessage(msg);
 				}
 			};
 		}
@@ -169,7 +169,7 @@ public class AResponseHandler {
 		switch (msg.what) {
 		case SUCCESS_MESSAGE:{
 			if(mReponseDataListeners != null){
-				AHttpLog.print(this, requestId,"SUCCESS_MESSAGE");
+				HttpLog.print(this, requestId,"SUCCESS_MESSAGE");
 				Object[] response = (Object[])msg.obj;
 				mReponseDataListeners.onSuccessResult(requestId, (Integer)response[0], (Object)response[1]);
 			}
@@ -177,7 +177,7 @@ public class AResponseHandler {
 		}
 		case FAILURE_MESSAGE:{
 			if(mReponseDataListeners != null){
-				AHttpLog.print(this, requestId,"FAILURE_MESSAGE");
+				HttpLog.print(this, requestId,"FAILURE_MESSAGE");
 				Object[] response = (Object[])msg.obj;
 				mReponseDataListeners.onErrorResult(requestId, (Integer)response[0], (Throwable)response[1]);
 			}
@@ -186,7 +186,7 @@ public class AResponseHandler {
 		case START_MESSAGE:{
 			
 			if(mStateListeners != null){
-				AHttpLog.print(this, requestId,"START_MESSAGE");
+				HttpLog.print(this, requestId,"START_MESSAGE");
 				mStateListeners.onStartRequest(requestId);
 			}
 			break;
@@ -194,7 +194,7 @@ public class AResponseHandler {
 		case FINISH_MESSAGE:{
 			
 			if(mStateListeners != null){
-				AHttpLog.print(this, requestId,"FINISH_MESSAGE");
+				HttpLog.print(this, requestId,"FINISH_MESSAGE");
 				mStateListeners.onFinishRequest(requestId);
 			}
 			break;
@@ -202,7 +202,7 @@ public class AResponseHandler {
 		case REPEAT_MESSAGE:{
 			if(mStateListeners != null){
 				int count = (Integer)msg.obj;	
-				AHttpLog.print(this, requestId,"REPEAT_MESSAGE   count:"+count);
+				HttpLog.print(this, requestId,"REPEAT_MESSAGE   count:"+count);
 				mStateListeners.onRepeatRequest(requestId,count);
 			}
 			break;

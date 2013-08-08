@@ -14,8 +14,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.alex.http.core.AHttpLog;
-import com.alex.http.core.AHttpRequest;
+import com.alex.http.core.HttpLog;
+import com.alex.http.core.HttpRequest;
+import com.alex.http.exception.HttpException;
 
 /**
  * 
@@ -24,7 +25,7 @@ import com.alex.http.core.AHttpRequest;
  * @author Alex.Lu
  *
  */
-public class AResourceHttpRequest extends AHttpRequest implements AHandleable{
+public class ResourceHttpRequest extends HttpRequest implements Handleable{
 
 	private HttpGet mHttpGet;
 	
@@ -43,11 +44,12 @@ public class AResourceHttpRequest extends AHttpRequest implements AHandleable{
 	private boolean isStop = false;
 	
 	
-	public AResourceHttpRequest(
+	public ResourceHttpRequest(
+			int requestId,
 			String name,
-			AResponseHandler responseHandler,
+			ResponseHandler responseHandler,
 			String url) {
-		super(responseHandler);
+		super(requestId,responseHandler);
 		setAHandleable(this);
 		mUrlParams = new LinkedList<BasicNameValuePair>() ;
 		mURL = url;
@@ -92,13 +94,13 @@ public class AResourceHttpRequest extends AHttpRequest implements AHandleable{
 		sbuf.append(mHasDownload);
 		sbuf.append("-");
 		mHttpGet.addHeader("RANGE", sbuf.toString());
-		AHttpLog.print(this, mRequestId,"doResourceRequest:"+mURL);
+		HttpLog.print(this, mRequestId,"doResourceRequest:"+mURL);
 	}
 	
 	@Override
 	public void doRequest() throws ClientProtocolException, IOException {
 		// TODO Auto-generated method stub
-		AHttpLog.print(this, mRequestId,"doResourceRequest:"+mURL);
+		HttpLog.print(this, mRequestId,"doResourceRequest:"+mURL);
 		mHttpResponse = mClient.execute(mHttpGet, mHttpContext);
 	}
 	
@@ -120,7 +122,7 @@ public class AResourceHttpRequest extends AHttpRequest implements AHandleable{
 
 	@Override
 	public Object handle(int requestId, HttpEntity paramInputStream)
-			throws AHttpException, IOException {
+			throws HttpException, IOException {
 		// TODO Auto-generated method stub
 		download(paramInputStream);
 		return null;

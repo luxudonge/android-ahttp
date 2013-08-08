@@ -15,7 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
 
-import com.alex.http.core.AHttpRequest;
+import com.alex.http.core.HttpRequest;
 import com.other.AGetRequestParams;
 
 /**
@@ -25,7 +25,7 @@ import com.other.AGetRequestParams;
  * @author Alex.Lu
  *
  */
-public class APostHttpRequest extends AHttpRequest {
+public class PostHttpRequest extends HttpRequest {
 
 	private HttpPost mHttpPost;
 	
@@ -37,11 +37,12 @@ public class APostHttpRequest extends AHttpRequest {
 	
 	private HttpEntity mEntity;
 	
-	public APostHttpRequest(
-			AHandleable handle, 
-			AResponseHandler responseHandler,
+	public PostHttpRequest(
+			int requestId,
+			Handleable handle, 
+			ResponseHandler responseHandler,
 			String url) {
-		super(handle, responseHandler);
+		super(requestId,handle, responseHandler);
 		// TODO Auto-generated constructor stub
 		mUrlParams = new LinkedList<BasicNameValuePair>() ;
 		mPostConentParams = new LinkedList<BasicNameValuePair>();

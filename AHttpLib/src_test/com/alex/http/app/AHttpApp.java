@@ -1,10 +1,11 @@
 package com.alex.http.app;
 
-import com.alex.http.core.AHttpConfiguration;
-import com.alex.http.core.AHttpEngine;
+import com.alex.http.core.HttpConfiguration;
+import com.alex.http.core.HttpEngine;
 import android.app.Application;
 
 /**
+ * 
  * 
  * @author Alex.Lu
  *
@@ -15,11 +16,11 @@ public class AHttpApp extends Application{
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		AHttpConfiguration httpConfiguration = new AHttpConfiguration.Builder()
+		HttpConfiguration httpConfiguration = new HttpConfiguration.Builder()
 		.enLog()
 		.build();
 		
-		AHttpEngine.getInstance().init(httpConfiguration);
+		HttpEngine.getInstance().init(httpConfiguration);
 		
 	}
 }

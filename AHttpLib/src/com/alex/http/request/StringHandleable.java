@@ -1,7 +1,7 @@
 package com.alex.http.request;
 
 
-public class AStringHandleable extends AAbstractStringHandleable{
+public class StringHandleable extends AbstractStringHandleable{
 
 	
 	@Override

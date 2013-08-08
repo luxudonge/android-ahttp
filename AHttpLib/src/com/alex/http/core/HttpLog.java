@@ -2,18 +2,18 @@ package com.alex.http.core;
 
 import android.util.Log;
 
-public class AHttpLog {
+public class HttpLog {
 	
 	public static AHttpLogListener mAHttpLogListener;
 	
 	public static void print(Object o,String msg){
-		if(!AHttpConfiguration.mLoggingEnabled)
+		if(!HttpConfiguration.mLoggingEnabled)
 			return ;
 		Log.i(o.getClass().getSimpleName(), msg);
 	}
 	
 	public static void print(Object o,int requestId,String msg){
-		if(!AHttpConfiguration.mLoggingEnabled)
+		if(!HttpConfiguration.mLoggingEnabled)
 			return ;
 		StringBuffer sbuf = new StringBuffer();
 		sbuf.append(o.getClass().getSimpleName());
@@ -23,7 +23,7 @@ public class AHttpLog {
 	}
 	
 	public static void print(String tag,String msg){
-		if(!AHttpConfiguration.mLoggingEnabled)
+		if(!HttpConfiguration.mLoggingEnabled)
 			return ;
 		Log.i(tag, msg);
 		if(mAHttpLogListener != null){

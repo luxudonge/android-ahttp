@@ -13,7 +13,7 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.alex.http.core.AHttpRequest;
+import com.alex.http.core.HttpRequest;
 import com.other.PostFile;
 
 /**
@@ -23,7 +23,7 @@ import com.other.PostFile;
  * @author Alex.Lu
  *
  */
-public class AUploadHttpRequest extends AHttpRequest {
+public class UploadHttpRequest extends HttpRequest {
 
 	public static String ENDCODING = "UTF-8";
 	
@@ -35,8 +35,8 @@ public class AUploadHttpRequest extends AHttpRequest {
 	
 	private ArrayList<PostFile> mArrayList;
 	
-	public AUploadHttpRequest(AHandleable handle, AResponseHandler responseHandler,String url) {
-		super(handle, responseHandler);
+	public UploadHttpRequest(int requestId,Handleable handle, ResponseHandler responseHandler,String url) {
+		super(requestId,handle, responseHandler);
 		mUrlParams = new LinkedList<BasicNameValuePair>();
 		mArrayList = new ArrayList<PostFile>();
 		mURL = url;
@@ -111,7 +111,6 @@ public class AUploadHttpRequest extends AHttpRequest {
 		}else{
 			//没有post数据
 		}
-		
 	}
 
 	@Override

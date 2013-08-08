@@ -7,38 +7,38 @@ import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 
-import com.alex.http.request.AHandleable;
-import com.alex.http.request.AHttpException;
-import com.alex.http.request.AResponseHandler;
+import com.alex.http.exception.HttpException;
+import com.alex.http.request.Handleable;
+import com.alex.http.request.ResponseHandler;
 
 /**
  * 
  * @author Alex.Lu
  * 
  */
-public abstract class AHttpRequest implements Runnable{
+public abstract class HttpRequest implements Runnable{
 	
 	private static int COUNTER = 0;
 	
 	private int _ID = 0;
 	
-	private AHttpRequestConfiguration mAHttpRequestConfiguration = null;
+	private HttpRequestConfiguration mAHttpRequestConfiguration = null;
 	
-	protected AResponseHandler mAResponseHandler;
+	protected ResponseHandler mAResponseHandler;
 	
-	protected AHandleable mParse;
+	protected Handleable mParse;
 	
-	protected DefaultHttpClient mClient;
+	protected HttpClient mClient;
 	
 	protected HttpResponse mHttpResponse;
 	
 	protected HttpContext mHttpContext;
 	
-	private AHttpEngine mHttpEngine;
+	private HttpEngine mHttpEngine;
 	
 	//请求的id
     protected int mRequestId;
@@ -49,33 +49,35 @@ public abstract class AHttpRequest implements Runnable{
     
     
     
-	public AHttpRequest(
-			AHandleable handle,
-			AResponseHandler responseHandler
+	public HttpRequest(
+			int requestId,
+			Handleable handle,
+			ResponseHandler responseHandler
 			){
 		_ID = COUNTER++;
-		
+		mRequestId = requestId;
 		mParse = handle;
 		mAResponseHandler = responseHandler;
 	}
 	
-	public AHttpRequest(
-			AResponseHandler responseHandler
+	public HttpRequest(
+			int requestId,
+			ResponseHandler responseHandler
 			){
 		_ID = COUNTER++;
-		
+		mRequestId = requestId;
 		mAResponseHandler = responseHandler;
 	}
 	
-	protected void setAHandleable(AHandleable handle){
+	protected void setAHandleable(Handleable handle){
 		mParse = handle;
 	}
 	
-	void setDefaultHttpClient(DefaultHttpClient client){
+	void setDefaultHttpClient(HttpClient client){
 		mClient = client;
 	}
 	
-	void setHttpEngine(AHttpEngine engine){
+	void setHttpEngine(HttpEngine engine){
 		mHttpEngine = engine;
 	}
 	
@@ -108,7 +110,7 @@ public abstract class AHttpRequest implements Runnable{
 	
 	/**
 	 * 响应请求
-	 * @throws AHttpException 
+	 * @throws HttpException 
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
@@ -123,7 +125,7 @@ public abstract class AHttpRequest implements Runnable{
 			try {
 				data = prase(httpEntity);
 				
-			} catch (AHttpException e) {
+			} catch (HttpException e) {
 				mAResponseHandler.sendErrorMessage(mRequestId, code,e);
 			} catch (IOException e) {
 				mAResponseHandler.sendErrorMessage(mRequestId, code,e);
@@ -143,7 +145,7 @@ public abstract class AHttpRequest implements Runnable{
 	 */
 	private boolean repeatRequest(){
 		if(mCount>1){
-			AHttpLog.print(this, mRequestId,"repeatRequest mCount:"+mCount);
+			HttpLog.print(this, mRequestId,"repeatRequest mCount:"+mCount);
 			mAResponseHandler.sendReqeatRequestMessages(mRequestId,mCount);
 			mCount--;
 			execute();
@@ -175,12 +177,12 @@ public abstract class AHttpRequest implements Runnable{
 	 * 
 	 * @param entity
 	 * @return
-	 * @throws AHttpException
+	 * @throws HttpException
 	 * @throws IOException
 	 */
-	private Object prase(HttpEntity entity) throws AHttpException, IOException{
+	private Object prase(HttpEntity entity) throws HttpException, IOException{
 		Object data;
-		AHttpLog.print(this, mRequestId,"prase");
+		HttpLog.print(this, mRequestId,"prase");
 		data = mParse.handle(mRequestId, entity);
 		return data;
 	}

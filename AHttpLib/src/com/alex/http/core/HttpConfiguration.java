@@ -1,13 +1,14 @@
 package com.alex.http.core;
 
+
 /**
  * 
  * httpClient 配置文件
  * 
- * @author e_worm
+ * @author Alex.Lu
  *
  */
-public final class AHttpConfiguration {
+public final class HttpConfiguration {
 
 	static boolean mLoggingEnabled;
 	final int mSocketTimeout;
@@ -18,9 +19,9 @@ public final class AHttpConfiguration {
 	final int mSocketBufferSize;
 	final int mThreadPoolSize;
 	
-	AHttpRequestConfiguration mAHttpConfiguration = null;
+	HttpRequestConfiguration mAHttpConfiguration = null;
 	
-	private AHttpConfiguration(final Builder builder){
+	private HttpConfiguration(final Builder builder){
 		mAHttpConfiguration = builder.mAHttpConfiguration;
 		mLoggingEnabled = builder.mLoggingEnabled;
 		mSocketTimeout = builder.mSocketTimeout;
@@ -63,19 +64,78 @@ public final class AHttpConfiguration {
 		
 		private int mThreadPoolSize = DEFAULT_THREAD_POOL_SIZE;
 		
-		private AHttpRequestConfiguration mAHttpConfiguration = null;
+		private HttpRequestConfiguration mAHttpConfiguration = null;
 		
-		public Builder defaultAHttpRequestConfiguration(AHttpRequestConfiguration defaultAHttpRequestConfiguration){
+		public Builder defaultAHttpRequestConfiguration(HttpRequestConfiguration defaultAHttpRequestConfiguration){
 			this.mAHttpConfiguration = defaultAHttpRequestConfiguration;
 			return this;
 		}
+		
+		/**
+		 * 开启日志打印
+		 * @return
+		 */
 		public Builder enLog(){
 			mLoggingEnabled = true;
 			return this;
 		}
 		
-		public AHttpConfiguration build(){
-			return new AHttpConfiguration(this);
+		/**
+		 * 
+		 * @param value
+		 * @return
+		 */
+		public Builder setMaxConectionsPerRounte(int value){
+			mMaxConnectionsPerRoute = value;
+			return this;
+		}
+		
+		/**
+		 * 设置socket缓存大小
+		 * @param value
+		 * @return
+		 */
+		public Builder setSocketBufferSize(int value){
+			mMaxTotalConnections = value;
+			return this;
+		}
+		
+		/**
+		 * 等待数据超时
+		 * @param value
+		 * @return
+		 */
+		public Builder setSoSocketTimeout(int value){
+			mSocketBufferSize = value;
+			return this;
+		}
+		
+		/**
+		 * 连接超时
+		 * @param value
+		 * @return
+		 */
+		public Builder setconnectionTime(int value){
+			mSoSocketTimeout = value;
+			return this;
+		}
+		
+		/**
+		 * 设置最大的线程池  当为-1时
+		 * @param value
+		 * @return
+		 */
+		public Builder setThreadPoolSize(int value){
+			mThreadPoolSize = value;
+			return this;
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public HttpConfiguration build(){
+			return new HttpConfiguration(this);
 		}
 		
 		
