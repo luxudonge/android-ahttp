@@ -1,5 +1,12 @@
 package com.alex.http.exception;
 
+/**
+ * 
+ * 异常
+ * 
+ * @author Alex.Lu
+ *
+ */
 public class HttpException extends Exception {
 
 	/**
