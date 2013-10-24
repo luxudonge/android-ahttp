@@ -11,6 +11,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.protocol.HttpContext;
 
+import android.os.Bundle;
+
 import com.alex.http.exception.HttpException;
 import com.alex.http.request.Handleable;
 import com.alex.http.request.ResponseHandler;
@@ -49,7 +51,7 @@ public abstract class HttpRequest implements Runnable{
     
     private int mCount = 3;
     
-    
+    private Bundle mData;
     
 	public HttpRequest(
 			int requestId,
@@ -85,6 +87,11 @@ public abstract class HttpRequest implements Runnable{
 	
 	public void setHttpContext(HttpContext httpContext){
 		mHttpContext = httpContext;
+	}
+	
+	public void setBundle(Bundle data){
+		mData = new Bundle();
+		mData.putAll(data);
 	}
 	
 	
