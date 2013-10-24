@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.alex.http.core.HttpEngine;
+import com.alex.http.core.HttpRequest;
 import com.alex.http.request.GetHttpRequest;
 import com.alex.http.request.ResponseHandler;
 import com.alex.http.request.StringHandleable;
@@ -94,31 +95,31 @@ public class GetsTestActivity extends Activity implements OnClickListener,
 	}
 
 	@Override
-	public void onStartRequest(int requestId) {
+	public void onStartRequest(HttpRequest request,int requestId) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onFinishRequest(int requestId) {
+	public void onFinishRequest(HttpRequest request,int requestId) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onRepeatRequest(int requestId, int count) {
+	public void onRepeatRequest(HttpRequest request,int requestId, int count) {
 		// TODO Auto-generated method stub
 		Log.e("onRepeatRequest", "count:"+count);
 	}
 
 	@Override
-	public void onSuccessResult(int requestId, int statusCode, Object data) {
+	public void onSuccessResult(HttpRequest request,int requestId, int statusCode, Object data) {
 		// TODO Auto-generated method stub
 		Log.e("onSuccessResult", "data:"+String.valueOf(data));
 	}
 
 	@Override
-	public void onErrorResult(int requestId, int statusCode, Throwable e) {
+	public void onErrorResult(HttpRequest request,int requestId, int statusCode, Throwable e) {
 		// TODO Auto-generated method stub
 		Log.e("onSuccessResult", "error:"+e.getMessage());
 	}

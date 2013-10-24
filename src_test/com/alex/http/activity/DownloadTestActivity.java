@@ -10,9 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.alex.http.core.HttpEngine;
+import com.alex.http.core.HttpRequest;
+import com.alex.http.request.ReponseUpdateDataListeners;
 import com.alex.http.request.ResourceHttpRequest;
 import com.alex.http.request.ResponseHandler;
-import com.alex.http.request.ReponseUpdateDataListeners;
 import com.alex.http.request.StateListeners;
 
 /**
@@ -86,28 +87,28 @@ public class DownloadTestActivity extends Activity implements StateListeners, On
 
 
 	@Override
-	public void onStartRequest(int requestId) {
+	public void onStartRequest(HttpRequest request,int requestId) {
 		// TODO Auto-generated method stub
 		Log.e("onStartRequest", "requestId:"+requestId);
 	}
 
 
 	@Override
-	public void onFinishRequest(int requestId) {
+	public void onFinishRequest(HttpRequest request,int requestId) {
 		// TODO Auto-generated method stub
 		Log.e("onFinishRequest", "requestId:"+requestId);
 	}
 
 
 	@Override
-	public void onRepeatRequest(int requestId,int count) {
+	public void onRepeatRequest(HttpRequest request,int requestId,int count) {
 		// TODO Auto-generated method stub
 		Log.e("onRepeatRequest", "requestId:"+requestId+"  count:"+count);
 	}
 
 
 	@Override
-	public void updateDownloadData(int requestId,long curSize, long allSize) {
+	public void updateDownloadData(HttpRequest request,int requestId,long curSize, long allSize) {
 		// TODO Auto-generated method stub
 		Log.e("onRepeatRequest", "requestId:"+requestId+"  curSize:"+curSize +"  allSize:"+allSize);
 		float f = (float)curSize/(float)allSize;

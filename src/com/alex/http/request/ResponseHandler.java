@@ -5,7 +5,7 @@ import android.os.Looper;
 import android.os.Message;
 
 import com.alex.http.core.HttpLog;
-
+import com.alex.http.core.HttpRequest;
 /**
  * 
  * 数据接收
@@ -100,8 +100,8 @@ public class ResponseHandler {
 	 * @param stuteCode http响应状态
 	 * @param data 数据
 	 */
-	public void sendSuccessMessage(int requestId,int stuteCode, Object data){
-		Object[] response = {stuteCode,data};
+	public void sendSuccessMessage(HttpRequest request,int requestId,int stuteCode, Object data){
+		Object[] response = {request,stuteCode,data};
 		sendMessage(obtainMessage(SUCCESS_MESSAGE, requestId, response));
 	}
 	
@@ -111,8 +111,8 @@ public class ResponseHandler {
 	 * @param stuteCode
 	 * @param e
 	 */
-	public void sendErrorMessage(int requestId,int stuteCode,Throwable e){
-		Object[] response = {stuteCode,e};
+	public void sendErrorMessage(HttpRequest request,int requestId,int stuteCode,Throwable e){
+		Object[] response = {request,stuteCode,e};
 		sendMessage(obtainMessage(FAILURE_MESSAGE, requestId, response));
 	}
 	
@@ -120,16 +120,18 @@ public class ResponseHandler {
 	 * 开始发送请求
 	 * @param requestId
 	 */
-	public void sendStartRequestMessage(int requestId){
-		sendMessage(obtainMessage(START_MESSAGE, requestId, null));
+	public void sendStartRequestMessage(HttpRequest request,int requestId){
+		Object[] response = {request};
+		sendMessage(obtainMessage(START_MESSAGE, requestId, response));
 	}
 	
 	/**
 	 * 完成请求
 	 * @param requestId
 	 */
-	public void sendFinishRequestMessages(int requestId){
-		sendMessage(obtainMessage(FINISH_MESSAGE, requestId, null));
+	public void sendFinishRequestMessages(HttpRequest request,int requestId){
+		Object[] response = {request};
+		sendMessage(obtainMessage(FINISH_MESSAGE, requestId, response));
 	}
 	
 	/**
@@ -137,8 +139,9 @@ public class ResponseHandler {
 	 * @param requestId
 	 * @param count
 	 */
-	public void sendReqeatRequestMessages(int requestId,int count){
-		sendMessage(obtainMessage(REPEAT_MESSAGE, requestId, count));
+	public void sendReqeatRequestMessages(HttpRequest request,int requestId,int count){
+		Object[] response = {request,count};
+		sendMessage(obtainMessage(REPEAT_MESSAGE, requestId, response));
 	}
 	
 	/**
@@ -172,7 +175,7 @@ public class ResponseHandler {
 			if(mReponseDataListeners != null){
 				HttpLog.print(this, requestId,"SUCCESS_MESSAGE");
 				Object[] response = (Object[])msg.obj;
-				mReponseDataListeners.onSuccessResult(requestId, (Integer)response[0], (Object)response[1]);
+				mReponseDataListeners.onSuccessResult((HttpRequest)response[0],requestId, (Integer)response[1], (Object)response[2]);
 			}
 			break;
 		}
@@ -180,7 +183,7 @@ public class ResponseHandler {
 			if(mReponseDataListeners != null){
 				HttpLog.print(this, requestId,"FAILURE_MESSAGE");
 				Object[] response = (Object[])msg.obj;
-				mReponseDataListeners.onErrorResult(requestId, (Integer)response[0], (Throwable)response[1]);
+				mReponseDataListeners.onErrorResult((HttpRequest)response[0],requestId, (Integer)response[1], (Throwable)response[2]);
 			}
 			break;
 		}
@@ -188,7 +191,8 @@ public class ResponseHandler {
 			
 			if(mStateListeners != null){
 				HttpLog.print(this, requestId,"START_MESSAGE");
-				mStateListeners.onStartRequest(requestId);
+				Object[] response = (Object[])msg.obj;
+				mStateListeners.onStartRequest((HttpRequest)response[0],requestId);
 			}
 			break;
 		}
@@ -196,15 +200,17 @@ public class ResponseHandler {
 			
 			if(mStateListeners != null){
 				HttpLog.print(this, requestId,"FINISH_MESSAGE");
-				mStateListeners.onFinishRequest(requestId);
+				Object[] response = (Object[])msg.obj;
+				mStateListeners.onFinishRequest((HttpRequest)response[0],requestId);
 			}
 			break;
 		}
 		case REPEAT_MESSAGE:{
 			if(mStateListeners != null){
-				int count = (Integer)msg.obj;	
+				Object[] response = (Object[])msg.obj;
+				int count = (Integer)response[1];	
 				HttpLog.print(this, requestId,"REPEAT_MESSAGE   count:"+count);
-				mStateListeners.onRepeatRequest(requestId,count);
+				mStateListeners.onRepeatRequest((HttpRequest)response[0],requestId,count);
 			}
 			break;
 		}
@@ -213,22 +219,16 @@ public class ResponseHandler {
 			Object[] response = (Object[])msg.obj;
 			if(mReponseUpdateDataListeners !=null)
 				mReponseUpdateDataListeners.updateDownloadData(
+						(HttpRequest)response[0],
 						requestId, 
-						(Long)response[0], 
-						(Long)response[1]);
+						(Long)response[1], 
+						(Long)response[2]);
 			break;
 		}
 		case UPLOAD_MESSAGE:{
 			Object[] response = (Object[])msg.obj;
-			if(mUploadDataListeners != null){
-				mUploadDataListeners.updataUploadData(
-						requestId, 
-						(Integer)response[0], 
-						(Integer)response[1], 
-						(Integer)response[2], 
-						(Integer)response[3]);
 			}
-		}
+		break;
 		default:
 			break;
 		}

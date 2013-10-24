@@ -1,5 +1,7 @@
 package com.alex.http.request;
 
+import com.alex.http.core.HttpRequest;
+
 
 /**
  * 
@@ -16,6 +18,6 @@ public interface ReponseUpdateDataListeners {
 	 * @param curSize 当前下载的资源大小
 	 * @param allSize 资源总大小
 	 */
-	public void updateDownloadData(int requestId,long curSize,long allSize);
+	public void updateDownloadData(HttpRequest request,int requestId,long curSize,long allSize);
 	
 }

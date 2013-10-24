@@ -11,6 +11,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.protocol.HttpContext;
 
+import android.os.Bundle;
+
 import com.alex.http.exception.HttpException;
 import com.alex.http.request.Handleable;
 import com.alex.http.request.ResponseHandler;
@@ -49,7 +51,7 @@ public abstract class HttpRequest implements Runnable{
     
     private int mCount = 3;
     
-    
+    private Bundle mData;
     
 	public HttpRequest(
 			int requestId,
@@ -87,14 +89,19 @@ public abstract class HttpRequest implements Runnable{
 		mHttpContext = httpContext;
 	}
 	
+	public void setBundle(Bundle data){
+		mData = new Bundle();
+		mData.putAll(data);
+	}
+	
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		buildRequest();
-		mAResponseHandler.sendStartRequestMessage(mRequestId);
+		mAResponseHandler.sendStartRequestMessage(this,mRequestId);
 		execute();
-		mAResponseHandler.sendFinishRequestMessages(mRequestId);
+		mAResponseHandler.sendFinishRequestMessages(this,mRequestId);
 		mHttpEngine.cancelRequest(this, true);
 	}
 	
@@ -128,14 +135,14 @@ public abstract class HttpRequest implements Runnable{
 				data = prase(httpEntity);
 				
 			} catch (HttpException e) {
-				mAResponseHandler.sendErrorMessage(mRequestId, code,e);
+				mAResponseHandler.sendErrorMessage(this,mRequestId, code,e);
 			} catch (IOException e) {
-				mAResponseHandler.sendErrorMessage(mRequestId, code,e);
+				mAResponseHandler.sendErrorMessage(this,mRequestId, code,e);
 			}
-			mAResponseHandler.sendSuccessMessage(mRequestId, code,data);
+			mAResponseHandler.sendSuccessMessage(this,mRequestId, code,data);
 		}else{
 			if(!repeatRequest()){
-				mAResponseHandler.sendErrorMessage(mRequestId, code,new HttpResponseException(code, statusLine.getReasonPhrase()));
+				mAResponseHandler.sendErrorMessage(this,mRequestId, code,new HttpResponseException(code, statusLine.getReasonPhrase()));
 			}
 		}
 		
@@ -148,7 +155,7 @@ public abstract class HttpRequest implements Runnable{
 	private boolean repeatRequest(){
 		if(mCount>1){
 			HttpLog.print(this, mRequestId,"repeatRequest mCount:"+mCount);
-			mAResponseHandler.sendReqeatRequestMessages(mRequestId,mCount);
+			mAResponseHandler.sendReqeatRequestMessages(this,mRequestId,mCount);
 			mCount--;
 			execute();
 			return true;
@@ -165,12 +172,12 @@ public abstract class HttpRequest implements Runnable{
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			if(!repeatRequest()){
-				mAResponseHandler.sendErrorMessage(mRequestId, -1,e);
+				mAResponseHandler.sendErrorMessage(this,mRequestId, -1,e);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			if(!repeatRequest()){
-				mAResponseHandler.sendErrorMessage(mRequestId, -1,e);
+				mAResponseHandler.sendErrorMessage(this,mRequestId, -1,e);
 			}
 		}
 	}
@@ -205,5 +212,11 @@ public abstract class HttpRequest implements Runnable{
 		return _ID;
 	}
 	
+	/**
+	 * 打断请求
+	 */
+	public void interruptRequest(){
+		mHttpEngine.cancelRequest(this, true);
+	}
 	
 }

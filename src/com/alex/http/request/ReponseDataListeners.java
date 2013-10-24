@@ -1,5 +1,7 @@
 package com.alex.http.request;
 
+import com.alex.http.core.HttpRequest;
+
 /**
  * 
  * 数据返回监听
@@ -16,7 +18,7 @@ public interface ReponseDataListeners {
 	 * @param statusCode 状态码
 	 * @param data 数据
 	 */
-	public void onSuccessResult(int requestId,int statusCode,Object data);
+	public void onSuccessResult(HttpRequest request,int requestId,int statusCode,Object data);
 	
 	/**
 	 * 错误返回
@@ -24,6 +26,7 @@ public interface ReponseDataListeners {
 	 * @param statusCode 状态码
 	 * @param e 错误
 	 */
-	public void onErrorResult(int requestId,int statusCode,Throwable e);
+	public void onErrorResult(HttpRequest request,int requestId,int statusCode,Throwable e);
+	
 	
 }
