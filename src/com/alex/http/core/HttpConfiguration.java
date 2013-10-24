@@ -10,6 +10,7 @@ package com.alex.http.core;
  */
 public final class HttpConfiguration {
 
+	
 	static boolean mLoggingEnabled;
 	final int mSocketTimeout;
 	final int mMaxConnectionsPerRoute;
