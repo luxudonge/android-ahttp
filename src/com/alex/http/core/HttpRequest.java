@@ -53,6 +53,8 @@ public abstract class HttpRequest implements Runnable{
     
     private Bundle mData;
     
+    private boolean mIsCancel;
+    
 	public HttpRequest(
 			int requestId,
 			Handleable handle,
@@ -62,6 +64,7 @@ public abstract class HttpRequest implements Runnable{
 		mRequestId = requestId;
 		mParse = handle;
 		mAResponseHandler = responseHandler;
+		mIsCancel = false;
 	}
 	
 	public HttpRequest(
@@ -71,6 +74,7 @@ public abstract class HttpRequest implements Runnable{
 		_ID = COUNTER++;
 		mRequestId = requestId;
 		mAResponseHandler = responseHandler;
+		mIsCancel = false;
 	}
 	
 	protected void setAHandleable(Handleable handle){
@@ -99,10 +103,15 @@ public abstract class HttpRequest implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		buildRequest();
-		mAResponseHandler.sendStartRequestMessage(this,mRequestId);
-		execute();
-		mAResponseHandler.sendFinishRequestMessages(this,mRequestId);
-		mHttpEngine.cancelRequest(this, true);
+		if(mIsCancel){
+			//取消
+			return;
+		}else{
+			mAResponseHandler.sendStartRequestMessage(this,mRequestId);
+			execute();
+			mAResponseHandler.sendFinishRequestMessages(this,mRequestId);
+			mHttpEngine.cancelRequest(this, true);
+		}
 	}
 	
 	/**
@@ -130,16 +139,22 @@ public abstract class HttpRequest implements Runnable{
 		int code = statusLine.getStatusCode();
 		//206为断点续传做准备
 		if(code < 300){
-			Object data = null;
-			try {
-				data = prase(httpEntity);
-				
-			} catch (HttpException e) {
-				mAResponseHandler.sendErrorMessage(this,mRequestId, code,e);
-			} catch (IOException e) {
-				mAResponseHandler.sendErrorMessage(this,mRequestId, code,e);
+			
+			if(mIsCancel){
+				//取消
+				return;
+			}else{
+				//数据解析
+				Object data = null;
+				try {
+					data = prase(httpEntity);
+				} catch (HttpException e) {
+					mAResponseHandler.sendErrorMessage(this, mRequestId, code, e);
+				} catch (IOException e) {
+					mAResponseHandler.sendErrorMessage(this, mRequestId, code, e);
+				}
+				mAResponseHandler.sendSuccessMessage(this,mRequestId, code,data);
 			}
-			mAResponseHandler.sendSuccessMessage(this,mRequestId, code,data);
 		}else{
 			if(!repeatRequest()){
 				mAResponseHandler.sendErrorMessage(this,mRequestId, code,new HttpResponseException(code, statusLine.getReasonPhrase()));
@@ -153,14 +168,20 @@ public abstract class HttpRequest implements Runnable{
 	 * @return
 	 */
 	private boolean repeatRequest(){
-		if(mCount>1){
-			HttpLog.print(this, mRequestId,"repeatRequest mCount:"+mCount);
-			mAResponseHandler.sendReqeatRequestMessages(this,mRequestId,mCount);
-			mCount--;
-			execute();
+		if(mIsCancel){
+			//取消
 			return true;
+		}else{
+			if(mCount>1){
+				HttpLog.print(this, mRequestId,"repeatRequest mCount:"+mCount);
+				mAResponseHandler.sendReqeatRequestMessages(this,mRequestId,mCount);
+				mCount--;
+				execute();
+				return true;
+			}else{
+				return false;
+			}
 		}
-		return false;
 	}
 	
 	
@@ -168,13 +189,13 @@ public abstract class HttpRequest implements Runnable{
 		
 		try {
 			doRequest();
-			onResponse();
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			if(!repeatRequest()){
-				mAResponseHandler.sendErrorMessage(this,mRequestId, -1,e);
+			if(mIsCancel){
+				//取消
+				return;
+			}else{
+				onResponse();
 			}
-		} catch (IOException e) {
+		}  catch (IOException e) {
 			// TODO Auto-generated catch block
 			if(!repeatRequest()){
 				mAResponseHandler.sendErrorMessage(this,mRequestId, -1,e);
@@ -215,7 +236,8 @@ public abstract class HttpRequest implements Runnable{
 	/**
 	 * 打断请求
 	 */
-	public void interruptRequest(){
+	public void cancel(){
+		mIsCancel = true;
 		mHttpEngine.cancelRequest(this, true);
 	}
 	
